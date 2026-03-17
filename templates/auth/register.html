@@ -1,53 +1,88 @@
 {% extends "base.html" %}
-{% block title %}Create Account — LinkHub Pro{% endblock %}
+{% block title %}Create account — LinkHub Pro{% endblock %}
 
 {% block content %}
-<div style="min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;">
-  <div style="width:100%; max-width:420px;">
+<div style="min-height:100vh; display:flex;">
 
-    <!-- Logo -->
-    <div style="text-align:center; margin-bottom:36px;">
-      <div style="font-size:44px; line-height:1; margin-bottom:10px;">⬡</div>
-      <h1 style="font-size:26px; font-weight:800; letter-spacing:-.02em;">
-        LinkHub <span style="color:var(--accent);">Pro</span>
-      </h1>
-      <p style="color:var(--text-muted); font-size:14px; margin-top:6px;">Create your free link page in seconds</p>
+  <!-- Left decorative panel -->
+  <div style="flex:1; background:#18160f; display:flex; flex-direction:column; justify-content:space-between; padding:48px; min-height:100vh;"
+       class="auth-panel">
+    <div style="font-family:'Instrument Serif',serif; font-size:22px; color:#faf9f7; letter-spacing:-.02em;">
+      LinkHub<span style="color:#f97316">.</span>
     </div>
+    <div>
+      <p style="font-family:'Instrument Serif',serif; font-size:32px; color:#faf9f7; line-height:1.25; letter-spacing:-.02em; margin-bottom:20px;">
+        Your links.<br>Your <em style="color:#f97316">identity</em>.<br>One URL.
+      </p>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        {% for feature in ['Free forever', 'Custom domain support', 'Click analytics', '4 beautiful themes'] %}
+        <div style="display:flex; align-items:center; gap:10px; font-size:13px; color:#a8a39c;">
+          <span style="width:18px; height:18px; border-radius:50%; background:#f97316; display:flex; align-items:center; justify-content:center; font-size:10px; color:#fff; flex-shrink:0;">✓</span>
+          {{ feature }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <p style="font-size:12px; color:#3d3b37;">© 2025 LinkHub Pro</p>
+  </div>
 
-    <!-- Card -->
-    <div class="card" style="padding:32px;">
-      <form method="POST" style="display:flex; flex-direction:column; gap:18px;">
+  <!-- Right form panel -->
+  <div style="width:480px; flex-shrink:0; display:flex; align-items:center; justify-content:center; padding:48px 40px; background:var(--bg);">
+    <div style="width:100%; max-width:340px;">
+
+      <div style="margin-bottom:36px;">
+        <h1 style="font-size:30px; font-weight:400; margin-bottom:6px;">Create your account</h1>
+        <p style="font-size:14px; color:var(--text-3);">Free, no credit card required</p>
+      </div>
+
+      <form method="POST" style="display:flex; flex-direction:column; gap:16px;">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <div>
           <label class="label">Username</label>
           <input class="input" name="username" placeholder="yourname" required autocomplete="username">
-          <div style="font-size:12px; color:var(--text-muted); margin-top:5px;">
-            Your public page will be at <strong style="color:var(--accent);">linkhub.pro/yourname</strong>
-          </div>
+          <p style="font-size:12px; color:var(--text-3); margin-top:5px;">
+            Your page: <strong style="color:var(--accent);">linkhub.pro/<span id="usernamePreview">yourname</span></strong>
+          </p>
         </div>
 
         <div>
-          <label class="label">Email</label>
+          <label class="label">Email address</label>
           <input class="input" name="email" type="email" placeholder="you@example.com" required autocomplete="email">
         </div>
 
         <div>
           <label class="label">Password</label>
-          <input class="input" name="password" type="password" placeholder="Min 8 chars, upper + lower + number" required autocomplete="new-password">
+          <input class="input" name="password" type="password" placeholder="Min. 8 chars, upper + lower + number" required autocomplete="new-password">
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width:100%; padding:13px; font-size:15px; margin-top:4px;">
-          Create Account →
+        <button type="submit" class="btn btn-primary" style="width:100%; padding:11px; font-size:14px; margin-top:4px;">
+          Create account →
         </button>
       </form>
+
+      <hr class="divider" style="margin:24px 0;">
+
+      <p style="font-size:13px; color:var(--text-3); text-align:center;">
+        Already have an account?
+        <a href="/login" style="color:var(--text); font-weight:600;">Sign in</a>
+      </p>
+
     </div>
-
-    <p style="text-align:center; font-size:13px; color:var(--text-muted); margin-top:20px;">
-      Already have an account?
-      <a href="/login" style="color:var(--accent); font-weight:600;">Sign in</a>
-    </p>
-
   </div>
+
 </div>
+
+<style>
+  @media (max-width: 720px) {
+    .auth-panel { display: none !important; }
+    [style*="width:480px"] { width: 100% !important; }
+  }
+</style>
+
+<script>
+  document.querySelector('[name="username"]').addEventListener('input', function() {
+    document.getElementById('usernamePreview').textContent = this.value || 'yourname';
+  });
+</script>
 {% endblock %}

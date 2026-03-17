@@ -1,26 +1,38 @@
 {% extends "base.html" %}
-{% block title %}Sign In — LinkHub Pro{% endblock %}
+{% block title %}Sign in — LinkHub Pro{% endblock %}
 
 {% block content %}
-<div style="min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;">
-  <div style="width:100%; max-width:420px;">
+<div style="min-height:100vh; display:flex;">
 
-    <!-- Logo -->
-    <div style="text-align:center; margin-bottom:36px;">
-      <div style="font-size:44px; line-height:1; margin-bottom:10px;">⬡</div>
-      <h1 style="font-size:26px; font-weight:800; letter-spacing:-.02em;">
-        LinkHub <span style="color:var(--accent);">Pro</span>
-      </h1>
-      <p style="color:var(--text-muted); font-size:14px; margin-top:6px;">Welcome back — sign in to continue</p>
+  <!-- Left decorative panel (hidden on mobile) -->
+  <div style="flex:1; background:#18160f; display:flex; flex-direction:column; justify-content:space-between; padding:48px; min-height:100vh;"
+       class="auth-panel">
+    <div style="font-family:'Instrument Serif',serif; font-size:22px; color:#faf9f7; letter-spacing:-.02em;">
+      LinkHub<span style="color:#f97316">.</span>
     </div>
+    <div>
+      <p style="font-family:'Instrument Serif',serif; font-size:32px; color:#faf9f7; line-height:1.25; letter-spacing:-.02em; margin-bottom:16px;">
+        "The simplest way to<br><em style="color:#f97316">share everything</em><br>you've made."
+      </p>
+      <p style="font-size:13px; color:#6b6660;">— used by creators worldwide</p>
+    </div>
+    <p style="font-size:12px; color:#3d3b37;">© 2025 LinkHub Pro</p>
+  </div>
 
-    <!-- Card -->
-    <div class="card" style="padding:32px;">
-      <form method="POST" style="display:flex; flex-direction:column; gap:18px;">
+  <!-- Right form panel -->
+  <div style="width:480px; flex-shrink:0; display:flex; align-items:center; justify-content:center; padding:48px 40px; background:var(--bg);">
+    <div style="width:100%; max-width:340px;">
+
+      <div style="margin-bottom:36px;">
+        <h1 style="font-size:30px; font-weight:400; margin-bottom:6px;">Welcome back</h1>
+        <p style="font-size:14px; color:var(--text-3);">Sign in to your LinkHub account</p>
+      </div>
+
+      <form method="POST" style="display:flex; flex-direction:column; gap:16px;">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <div>
-          <label class="label">Email</label>
+          <label class="label">Email address</label>
           <input class="input" name="email" type="email" placeholder="you@example.com" required autocomplete="email">
         </div>
 
@@ -29,17 +41,27 @@
           <input class="input" name="password" type="password" placeholder="••••••••" required autocomplete="current-password">
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width:100%; padding:13px; font-size:15px; margin-top:4px;">
-          Sign In →
+        <button type="submit" class="btn btn-primary" style="width:100%; padding:11px; font-size:14px; margin-top:4px;">
+          Sign in →
         </button>
       </form>
+
+      <hr class="divider" style="margin:24px 0;">
+
+      <p style="font-size:13px; color:var(--text-3); text-align:center;">
+        Don't have an account?
+        <a href="/register" style="color:var(--text); font-weight:600;">Create one free</a>
+      </p>
+
     </div>
-
-    <p style="text-align:center; font-size:13px; color:var(--text-muted); margin-top:20px;">
-      No account?
-      <a href="/register" style="color:var(--accent); font-weight:600;">Create one free</a>
-    </p>
-
   </div>
+
 </div>
+
+<style>
+  @media (max-width: 720px) {
+    .auth-panel { display: none !important; }
+    [style*="width:480px"] { width: 100% !important; }
+  }
+</style>
 {% endblock %}

@@ -3,87 +3,77 @@
 
 {% block head %}
 <style>
-  /* ── Dashboard Layout ── */
-  .dash-grid {
-    display: flex;
-    gap: 28px;
-    align-items: flex-start;
-  }
-  .dash-main  { flex: 1; min-width: 0; }
-  .dash-side  { width: 300px; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
+  .dash-wrap { max-width: 1100px; margin: 0 auto; padding: 36px 28px 72px; }
 
+  /* Sidebar/main layout */
+  .dash-grid { display: flex; gap: 24px; align-items: flex-start; }
+  .dash-main  { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+  .dash-side  { width: 288px; flex-shrink: 0; display: flex; flex-direction: column; gap: 16px; }
   @media (max-width: 860px) {
     .dash-grid { flex-direction: column; }
     .dash-side  { width: 100%; }
   }
 
-  /* ── Link Items ── */
-  .link-item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 14px 16px;
-    background: var(--bg-input);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    cursor: grab;
-    transition: border-color .18s, transform .18s, box-shadow .18s;
-    user-select: none;
+  /* Stat card */
+  .stat {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 20px 22px;
+    transition: box-shadow .15s;
   }
-  .link-item:hover     { border-color: var(--accent); transform: translateX(3px); }
-  .link-item:active    { cursor: grabbing; }
-  .link-item.sortable-ghost { opacity: .35; }
-  .link-item.sortable-chosen { box-shadow: var(--shadow); }
+  .stat:hover { box-shadow: var(--shadow); }
+  .stat-n { font-family: 'Instrument Serif', serif; font-size: 34px; line-height: 1; letter-spacing: -.02em; margin-bottom: 4px; }
+  .stat-l { font-size: 12px; font-weight: 500; color: var(--text-3); text-transform: uppercase; letter-spacing: .07em; }
 
-  /* ── Stats ── */
-  .stat-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px 24px;
-  }
-  .stat-num  { font-size: 30px; font-weight: 800; font-family: 'Syne', sans-serif; line-height: 1; }
-  .stat-label{ font-size: 12px; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
-
-  /* ── Theme Pills ── */
-  .theme-option {
+  /* Link row */
+  .link-row {
     display: flex; align-items: center; gap: 10px;
-    padding: 10px 14px; border-radius: 10px; cursor: pointer;
-    border: 1.5px solid var(--border);
-    background: transparent; color: var(--text);
-    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
-    transition: all .18s; width: 100%; text-align: left;
+    padding: 12px 14px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color .15s, box-shadow .15s;
+    cursor: grab;
   }
-  .theme-option:hover,
-  .theme-option.active {
-    border-color: var(--accent);
-    background: var(--accent-soft);
-    color: var(--accent);
-  }
-  .theme-option input[type="radio"] { accent-color: var(--accent); flex-shrink: 0; }
+  .link-row:active { cursor: grabbing; }
+  .link-row:hover { border-color: var(--border-strong); box-shadow: var(--shadow-sm); }
+  .link-row.sortable-ghost { opacity: .3; }
+  .link-row.sortable-chosen { box-shadow: var(--shadow); }
 
-  /* ── Avatar ── */
-  .avatar-img {
-    width: 72px; height: 72px; border-radius: 50%;
-    border: 2.5px solid var(--accent);
-    object-fit: cover; flex-shrink: 0;
-    box-shadow: 0 0 0 5px var(--accent-soft);
+  .drag-icon { color: var(--text-3); font-size: 16px; flex-shrink: 0; line-height: 1; user-select: none; }
+  .link-row:hover .drag-icon { color: var(--accent); }
+
+  /* Theme picker */
+  .theme-opt {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; padding: 10px 12px; border-radius: var(--radius);
+    background: transparent; color: var(--text-2);
+    border: 1.5px solid var(--border); cursor: pointer;
+    font-family: 'Geist', sans-serif; font-size: 13px; font-weight: 500;
+    transition: all .15s; text-align: left;
   }
-  .avatar-placeholder {
-    width: 72px; height: 72px; border-radius: 50%;
-    border: 2.5px solid var(--accent);
-    background: var(--bg-input);
+  .theme-opt:hover   { border-color: var(--border-strong); color: var(--text); background: var(--bg-subtle); }
+  .theme-opt.active  { border-color: var(--accent); color: var(--accent); background: var(--accent-xsoft); }
+  .theme-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Avatar */
+  .avatar-circle {
+    width: 64px; height: 64px; border-radius: 50%;
+    border: 2px solid var(--border); object-fit: cover; flex-shrink: 0;
+    background: var(--bg-subtle);
+  }
+  .avatar-initial {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--accent-soft); border: 2px solid var(--border);
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800;
+    font-family: 'Instrument Serif', serif; font-size: 24px;
     color: var(--accent); flex-shrink: 0;
-    box-shadow: 0 0 0 5px var(--accent-soft);
   }
 
-  /* ── Drag handle ── */
-  .drag-handle {
-    color: var(--text-muted); font-size: 18px;
-    cursor: grab; flex-shrink: 0; line-height: 1;
-    transition: color .18s;
+  /* Panel heading */
+  .panel-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 20px 0;
   }
-  .link-item:hover .drag-handle { color: var(--accent); }
+  .panel-body { padding: 16px 20px 20px; }
 </style>
 {% endblock %}
 
@@ -91,317 +81,297 @@
 
 <!-- Navbar -->
 <nav class="navbar">
-  <div style="max-width:1160px; margin:0 auto; padding:0 24px; height:62px;
-              display:flex; align-items:center; justify-content:space-between;">
-    <div style="display:flex; align-items:center; gap:10px;">
-      <span style="font-size:22px; color:var(--accent); line-height:1;">⬡</span>
-      <span style="font-family:Syne,sans-serif; font-weight:800; font-size:17px;">
-        LinkHub <span style="color:var(--accent);">Pro</span>
-      </span>
+  <div class="navbar-inner">
+    <div style="display:flex; align-items:center; gap:20px;">
+      <a href="/" class="nav-logo">LinkHub<span>.</span></a>
+      <span style="color:var(--border); font-size:18px;">|</span>
+      <span style="font-size:13px; color:var(--text-3); font-weight:500;">Dashboard</span>
     </div>
-    <div style="display:flex; align-items:center; gap:14px;">
+    <div style="display:flex; align-items:center; gap:10px;">
       <a href="/{{ current_user.username }}" target="_blank"
-         style="font-size:13px; color:var(--text-muted); display:flex; align-items:center; gap:4px;">
-        View Profile ↗
+         style="font-size:13px; color:var(--text-2); display:flex; align-items:center; gap:4px; font-weight:500;">
+        View profile ↗
       </a>
-      <a href="/logout" class="btn btn-ghost" style="padding:7px 16px; font-size:13px;">Logout</a>
+      <a href="/logout" class="btn btn-ghost" style="padding:7px 14px;">Logout</a>
     </div>
   </div>
 </nav>
 
-<div style="max-width:1160px; margin:0 auto; padding:36px 24px 64px;">
+<div class="dash-wrap">
 
-  <!-- Page header -->
-  <div style="margin-bottom:32px;">
-    <h1 style="font-size:30px; font-weight:800; letter-spacing:-.02em;">
-      Hey, {{ current_user.username }} 👋
+  <!-- Page title -->
+  <div style="margin-bottom:28px;">
+    <h1 style="font-size:32px; font-weight:400; margin-bottom:4px;">
+      Good to see you, <em style="color:var(--accent);">{{ current_user.username }}</em>
     </h1>
-    <p style="color:var(--text-muted); font-size:14px; margin-top:5px;">
-      Manage your links, profile, and settings from here.
+    <p style="font-size:13px; color:var(--text-3);">
+      Your page: <a href="/{{ current_user.username }}" target="_blank" style="color:var(--text-2); font-weight:500;">linkhub.pro/{{ current_user.username }}</a>
     </p>
   </div>
 
   <!-- Stats row -->
-  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:16px; margin-bottom:32px;">
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--accent);">{{ links|length }}</div>
-      <div class="stat-label">Total Links</div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:12px; margin-bottom:28px;">
+    <div class="stat">
+      <div class="stat-n" style="color:var(--accent);">{{ links|length }}</div>
+      <div class="stat-l">Links</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--success);">{{ total_clicks }}</div>
-      <div class="stat-label">Total Clicks</div>
+    <div class="stat">
+      <div class="stat-n" style="color:var(--text);">{{ total_clicks }}</div>
+      <div class="stat-l">Total clicks</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--text); font-size:22px; padding-top:4px;">
+    <div class="stat">
+      <div class="stat-n" style="font-size:18px; padding-top:8px; color:var(--text);">
         {{ current_user.theme | capitalize }}
       </div>
-      <div class="stat-label">Active Theme</div>
+      <div class="stat-l">Theme</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:var(--text); font-size:22px; padding-top:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+    <div class="stat">
+      <div class="stat-n" style="font-size:14px; padding-top:10px; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
         {% if current_user.custom_domain %}{{ current_user.custom_domain }}{% else %}—{% endif %}
       </div>
-      <div class="stat-label">Custom Domain</div>
+      <div class="stat-l">Custom domain</div>
     </div>
   </div>
 
   <!-- Main grid -->
   <div class="dash-grid">
 
-    <!-- ── LEFT: Links ── -->
+    <!-- LEFT -->
     <div class="dash-main">
 
       <!-- Add link -->
-      <div class="card" style="padding:26px; margin-bottom:20px;">
-        <div class="section-title">Add New Link</div>
-        <form action="/add-link" method="POST" style="display:flex; flex-direction:column; gap:12px;">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-          <input class="input" name="title" placeholder="Link title  (e.g. My Portfolio)" required>
-          <input class="input" name="url"   placeholder="https://example.com" required>
-          <div>
-            <button type="submit" class="btn btn-primary">+ Add Link</button>
-          </div>
-        </form>
+      <div class="card">
+        <div class="panel-head">
+          <span class="section-label">Add a link</span>
+        </div>
+        <div class="panel-body">
+          <form action="/add-link" method="POST" style="display:flex; flex-direction:column; gap:10px;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input class="input" name="title" placeholder="Title  (e.g. My GitHub)" required>
+            <input class="input" name="url"   placeholder="URL  (e.g. https://github.com/you)" required>
+            <div><button type="submit" class="btn btn-accent">+ Add link</button></div>
+          </form>
+        </div>
       </div>
 
       <!-- Links list -->
-      <div class="card" style="padding:26px;">
-        <div class="section-title">Your Links</div>
+      <div class="card">
+        <div class="panel-head">
+          <span class="section-label">Your links</span>
+          <span class="badge">{{ links|length }}</span>
+        </div>
+        <div class="panel-body" style="padding-top:12px;">
 
-        {% if links %}
-        <div id="linksContainer" style="display:flex; flex-direction:column; gap:10px;">
-          {% for link in links %}
-          <div class="link-item" data-id="{{ link.id }}">
-            <span class="drag-handle">⠿</span>
-            <div style="flex:1; min-width:0;">
-              <div style="font-weight:600; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                {{ link.title }}
+          {% if links %}
+          <div id="linksContainer" style="display:flex; flex-direction:column; gap:8px;">
+            {% for link in links %}
+            <div class="link-row" data-id="{{ link.id }}">
+              <span class="drag-icon">⠿</span>
+              <div style="flex:1; min-width:0;">
+                <div style="font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                  {{ link.title }}
+                </div>
+                <div style="font-size:12px; color:var(--text-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:1px;">
+                  {{ link.url }}
+                </div>
               </div>
-              <div style="font-size:12px; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px;">
-                {{ link.url }}
-              </div>
+              <span class="badge" style="flex-shrink:0;">{{ link.click_count }} clicks</span>
+              <form action="/delete-link/{{ link.id }}" method="POST" style="flex-shrink:0;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-danger"
+                        style="padding:5px 9px; font-size:12px;"
+                        onclick="return confirm('Delete this link?')">✕</button>
+              </form>
             </div>
-            <span class="badge" style="flex-shrink:0;">{{ link.click_count }}</span>
-            <form action="/delete-link/{{ link.id }}" method="POST" style="margin:0; flex-shrink:0;">
-              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-              <button type="submit" class="btn btn-danger"
-                      style="padding:6px 10px; font-size:12px;"
-                      onclick="return confirm('Delete this link?')">✕</button>
-            </form>
+            {% endfor %}
           </div>
-          {% endfor %}
+
+          {% else %}
+          <div style="padding:36px 0; text-align:center; color:var(--text-3);">
+            <div style="font-size:32px; margin-bottom:10px;">🔗</div>
+            <div style="font-size:13px;">No links yet. Add your first one above.</div>
+          </div>
+          {% endif %}
+
         </div>
-        {% else %}
-        <div style="text-align:center; padding:48px 20px; color:var(--text-muted);">
-          <div style="font-size:40px; margin-bottom:12px;">🔗</div>
-          <div style="font-size:14px;">No links yet — add your first one above!</div>
-        </div>
-        {% endif %}
       </div>
 
-      <!-- Analytics chart -->
-      <div class="card" style="padding:26px; margin-top:20px;">
-        <div class="section-title">Click Analytics</div>
-        <div style="position:relative; height:200px;">
-          <canvas id="analyticsChart"></canvas>
+      <!-- Analytics -->
+      <div class="card">
+        <div class="panel-head">
+          <span class="section-label">Click analytics</span>
+        </div>
+        <div class="panel-body">
+          <div style="position:relative; height:180px;">
+            <canvas id="analyticsChart"></canvas>
+          </div>
         </div>
       </div>
 
     </div><!-- /dash-main -->
 
-    <!-- ── RIGHT: Sidebar ── -->
+    <!-- RIGHT: Sidebar -->
     <div class="dash-side">
 
       <!-- Profile -->
-      <div class="card" style="padding:26px;">
-        <div class="section-title">Profile</div>
-        <form action="/update-profile" method="POST" enctype="multipart/form-data"
-              style="display:flex; flex-direction:column; gap:14px;">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="card">
+        <div class="panel-head"><span class="section-label">Profile</span></div>
+        <div class="panel-body">
+          <form action="/update-profile" method="POST" enctype="multipart/form-data"
+                style="display:flex; flex-direction:column; gap:14px;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-          <!-- Avatar row -->
-          <div style="display:flex; align-items:center; gap:16px;">
-            {% if current_user.avatar %}
-              <img id="avatarPreview" src="/static/{{ current_user.avatar }}"
-                   class="avatar-img" alt="Avatar">
-            {% else %}
-              <div id="avatarPreview" class="avatar-placeholder">
-                {{ current_user.username[0] | upper }}
-              </div>
-            {% endif %}
-            <div>
-              <label class="btn btn-ghost"
-                     style="padding:8px 14px; font-size:13px; cursor:pointer;">
-                📷 Upload Photo
-                <input type="file" name="avatar" accept=".jpg,.jpeg,.png,.webp"
-                       style="display:none;" onchange="previewAvatar(this)">
-              </label>
-              <div style="font-size:11px; color:var(--text-muted); margin-top:5px;">
-                JPG, PNG, WEBP · max 2 MB
+            <div style="display:flex; align-items:center; gap:14px;">
+              {% if current_user.avatar %}
+                <img id="avatarEl" src="/static/{{ current_user.avatar }}" class="avatar-circle" alt="Avatar">
+              {% else %}
+                <div id="avatarEl" class="avatar-initial">{{ current_user.username[0]|upper }}</div>
+              {% endif %}
+              <div>
+                <label class="btn btn-ghost" style="cursor:pointer; font-size:12px; padding:7px 12px;">
+                  Upload photo
+                  <input type="file" name="avatar" accept=".jpg,.jpeg,.png,.webp"
+                         style="display:none;" onchange="previewAvatar(this)">
+                </label>
+                <p style="font-size:11px; color:var(--text-3); margin-top:4px;">JPG, PNG · max 2 MB</p>
               </div>
             </div>
-          </div>
 
-          <div>
-            <label class="label">Bio</label>
-            <textarea class="input" name="bio" rows="3"
-                      placeholder="Tell the world about yourself…"
-                      style="resize:vertical;">{{ current_user.bio or '' }}</textarea>
-          </div>
+            <div>
+              <label class="label">Bio</label>
+              <textarea class="input" name="bio" rows="3"
+                        placeholder="Tell the world about yourself…">{{ current_user.bio or '' }}</textarea>
+            </div>
 
-          <div>
-            <button type="submit" class="btn btn-primary">Save Profile</button>
-          </div>
-        </form>
+            <div><button type="submit" class="btn btn-primary">Save profile</button></div>
+          </form>
+        </div>
       </div>
 
       <!-- Theme -->
-      <div class="card" style="padding:26px;">
-        <div class="section-title">Theme</div>
-        <form action="/update-theme" method="POST" id="themeForm">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-          <input type="hidden" name="theme" id="themeInput" value="{{ current_user.theme or 'dark' }}">
-          <div style="display:flex; flex-direction:column; gap:8px;">
-
-            {% for tid, tlabel, ticon in [('dark','Dark','🌙'), ('neon','Neon','⚡'), ('professional','Professional','💼')] %}
-            <button type="button" class="theme-option {% if (current_user.theme or 'dark') == tid %}active{% endif %}"
-                    onclick="selectTheme('{{ tid }}', this)">
-              <span style="font-size:18px;">{{ ticon }}</span>
-              <span>{{ tlabel }}</span>
-            </button>
-            {% endfor %}
-
-          </div>
-          <button type="submit" class="btn btn-primary"
-                  style="width:100%; margin-top:14px;">Apply Theme</button>
-        </form>
+      <div class="card">
+        <div class="panel-head"><span class="section-label">Theme</span></div>
+        <div class="panel-body">
+          <form action="/update-theme" method="POST" id="themeForm">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="theme" id="themeVal" value="{{ current_user.theme or 'light' }}">
+            <div style="display:flex; flex-direction:column; gap:7px;">
+              {% for tid, tlabel, tcolor in [('light','Light','#faf9f7'),('dark','Dark','#18160f'),('neon','Neon','#a78bfa'),('professional','Professional','#0ea5e9')] %}
+              <button type="button"
+                class="theme-opt {% if (current_user.theme or 'light') == tid %}active{% endif %}"
+                onclick="pickTheme('{{ tid }}', this)">
+                <span class="theme-dot" style="background:{{ tcolor }}; border:1px solid var(--border);"></span>
+                {{ tlabel }}
+              </button>
+              {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:12px;">Apply theme</button>
+          </form>
+        </div>
       </div>
 
-      <!-- Custom Domain -->
-      <div class="card" style="padding:26px;">
-        <div class="section-title">Custom Domain</div>
-        <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px; line-height:1.6;">
-          Point your domain's DNS A-record to this server, then enter the domain below.
-        </p>
-        <form action="/update-domain" method="POST"
-              style="display:flex; flex-direction:column; gap:12px;">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-          <input class="input" name="custom_domain" placeholder="myname.com"
-                 value="{{ current_user.custom_domain or '' }}">
-          <div>
-            <button type="submit" class="btn btn-primary">Save Domain</button>
+      <!-- Custom domain -->
+      <div class="card">
+        <div class="panel-head"><span class="section-label">Custom domain</span></div>
+        <div class="panel-body">
+          <p style="font-size:12px; color:var(--text-3); margin-bottom:12px; line-height:1.65;">
+            Point your domain's DNS A-record to this server, then enter it below.
+          </p>
+          <form action="/update-domain" method="POST" style="display:flex; flex-direction:column; gap:10px;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input class="input" name="custom_domain" placeholder="myname.com"
+                   value="{{ current_user.custom_domain or '' }}">
+            <div><button type="submit" class="btn btn-primary">Save domain</button></div>
+          </form>
+          {% if current_user.custom_domain %}
+          <div style="margin-top:10px;">
+            <span class="badge badge-accent">✓ {{ current_user.custom_domain }}</span>
           </div>
-        </form>
-        {% if current_user.custom_domain %}
-        <div style="margin-top:14px;">
-          <span class="badge" style="font-size:12px;">✓ {{ current_user.custom_domain }}</span>
+          {% endif %}
         </div>
-        {% endif %}
       </div>
 
     </div><!-- /dash-side -->
-
   </div><!-- /dash-grid -->
 
-</div><!-- /max-width wrapper -->
+</div><!-- /dash-wrap -->
 
-<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script>
-/* ── Drag & Drop ── */
-(function() {
+// Drag & drop
+(function(){
   var el = document.getElementById('linksContainer');
   if (!el) return;
   new Sortable(el, {
-    animation: 200,
-    ghostClass: 'sortable-ghost',
-    chosenClass: 'sortable-chosen',
-    onEnd: function() {
-      var order = Array.from(el.children).map(function(c) { return c.dataset.id; });
+    animation: 180, ghostClass: 'sortable-ghost', chosenClass: 'sortable-chosen',
+    onEnd: function(){
+      var order = Array.from(el.children).map(function(c){ return c.dataset.id; });
       fetch('/reorder', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify({ order: order })
+        headers: {'Content-Type':'application/json','X-CSRFToken':'{{ csrf_token() }}'},
+        body: JSON.stringify({order: order})
       });
     }
   });
 })();
 
-/* ── Avatar preview ── */
+// Avatar preview
 function previewAvatar(input) {
   if (!input.files || !input.files[0]) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var el = document.getElementById('avatarPreview');
+  var r = new FileReader();
+  r.onload = function(e) {
+    var el = document.getElementById('avatarEl');
     if (el.tagName === 'IMG') {
       el.src = e.target.result;
     } else {
-      // Replace placeholder div with an img
       var img = document.createElement('img');
-      img.id = 'avatarPreview';
-      img.className = 'avatar-img';
+      img.id = 'avatarEl'; img.className = 'avatar-circle';
       img.src = e.target.result;
       el.parentNode.replaceChild(img, el);
     }
   };
-  reader.readAsDataURL(input.files[0]);
+  r.readAsDataURL(input.files[0]);
 }
 
-/* ── Theme live preview ── */
-function selectTheme(theme, btn) {
-  document.getElementById('themeInput').value = theme;
-  document.documentElement.setAttribute('data-theme', theme);
-  document.querySelectorAll('.theme-option').forEach(function(b) {
-    b.classList.remove('active');
-  });
+// Theme picker
+function pickTheme(t, btn) {
+  document.getElementById('themeVal').value = t;
+  document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-opt').forEach(function(b){ b.classList.remove('active'); });
   btn.classList.add('active');
 }
 
-/* ── Analytics Chart ── */
+// Analytics chart
 fetch('/analytics-data')
-  .then(function(r) { return r.json(); })
-  .then(function(data) {
-    var style = getComputedStyle(document.documentElement);
-    var accent = style.getPropertyValue('--accent').trim();
-    var muted  = style.getPropertyValue('--text-muted').trim();
-    var ctx = document.getElementById('analyticsChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'line',
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    var s = getComputedStyle(document.documentElement);
+    var accent = s.getPropertyValue('--accent').trim();
+    var border = s.getPropertyValue('--border').trim();
+    var muted  = s.getPropertyValue('--text-3').trim();
+    new Chart(document.getElementById('analyticsChart').getContext('2d'), {
+      type: 'bar',
       data: {
-        labels: data.labels.length ? data.labels : ['No data yet'],
+        labels: data.labels.length ? data.labels : ['No data'],
         datasets: [{
           label: 'Clicks',
           data: data.values.length ? data.values : [0],
+          backgroundColor: accent + '30',
           borderColor: accent,
-          backgroundColor: accent + '28',
-          fill: true,
-          tension: 0.42,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          borderWidth: 2
+          borderWidth: 1.5,
+          borderRadius: 5,
         }]
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        responsive: true, maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
-          x: {
-            grid: { color: 'rgba(128,128,128,.08)' },
-            ticks: { color: muted, font: { family: 'DM Sans', size: 12 } }
-          },
-          y: {
-            grid: { color: 'rgba(128,128,128,.08)' },
-            ticks: { color: muted, font: { family: 'DM Sans', size: 12 }, stepSize: 1 }
-          }
+          x: { grid: { color: border }, ticks: { color: muted, font: { family: 'Geist', size: 11 } } },
+          y: { grid: { color: border }, ticks: { color: muted, font: { family: 'Geist', size: 11 }, stepSize: 1 } }
         }
       }
     });
   });
 </script>
-
 {% endblock %}
