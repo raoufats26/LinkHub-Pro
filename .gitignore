@@ -1,0 +1,17 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Env
+.env
+
+# Database
+*.db
+
+# Migrations cache (optional)
+migrations/__pycache__/
+
+# OS
+.DS_Store
+Thumbs.db

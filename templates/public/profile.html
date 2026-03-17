@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ user.theme or 'dark' }}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ user.username }}{% if user.bio %} — {{ user.bio[:60] }}{% endif %}</title>
+  <meta name="description" content="{{ user.bio or (user.username + ' on LinkHub Pro') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ═══ THEMES ═══ */
+    :root, [data-theme="dark"] {
+      --bg:          #0d0f14;
+      --bg-card:     #161922;
+      --text:        #e8eaf0;
+      --text-muted:  #5a6480;
+      --accent:      #6366f1;
+      --accent-soft: rgba(99,102,241,.13);
+      --link-bg:     #1c2030;
+      --link-border: #272d3d;
+      --link-hover:  #252b3e;
+    }
+    [data-theme="neon"] {
+      --bg:          #04060d;
+      --bg-card:     #0a0e1a;
+      --text:        #d4eeff;
+      --text-muted:  #3d6b8a;
+      --accent:      #00e5ff;
+      --accent-soft: rgba(0,229,255,.10);
+      --link-bg:     #0b1220;
+      --link-border: #162340;
+      --link-hover:  #101c30;
+    }
+    [data-theme="professional"] {
+      --bg:          #f4f6fb;
+      --bg-card:     #ffffff;
+      --text:        #1a202c;
+      --text-muted:  #6b7a99;
+      --accent:      #2563eb;
+      --accent-soft: rgba(37,99,235,.08);
+      --link-bg:     #f8faff;
+      --link-border: #dde3f0;
+      --link-hover:  #eef2ff;
+    }
+
+    /* ═══ RESET ═══ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    [data-theme="neon"] body {
+      background:
+        radial-gradient(ellipse 80% 40% at 50% -5%, rgba(0,229,255,.07), transparent),
+        var(--bg);
+    }
+    [data-theme="neon"] body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg, transparent 0, transparent 3px,
+        rgba(0,229,255,.011) 3px, rgba(0,229,255,.011) 4px
+      );
+    }
+    [data-theme="professional"] body {
+      background: linear-gradient(145deg, #f4f6fb 0%, #eaefff 100%);
+    }
+
+    /* ═══ PAGE ═══ */
+    .page {
+      width: 100%;
+      max-width: 500px;
+      padding: 56px 20px 80px;
+      position: relative; z-index: 1;
+    }
+
+    /* ═══ HEADER ═══ */
+    .profile-header {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; margin-bottom: 44px;
+    }
+
+    .avatar-img {
+      width: 96px; height: 96px; border-radius: 50%;
+      border: 3px solid var(--accent);
+      object-fit: cover;
+      box-shadow: 0 0 0 7px var(--accent-soft);
+      margin-bottom: 20px;
+    }
+    .avatar-initials {
+      width: 96px; height: 96px; border-radius: 50%;
+      border: 3px solid var(--accent);
+      background: var(--bg-card);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
+      color: var(--accent);
+      box-shadow: 0 0 0 7px var(--accent-soft);
+      margin-bottom: 20px;
+    }
+
+    .username {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px; font-weight: 800;
+      letter-spacing: -.02em; margin-bottom: 8px;
+    }
+    .bio {
+      color: var(--text-muted);
+      font-size: 14px; line-height: 1.65;
+      max-width: 340px;
+    }
+
+    /* ═══ LINKS ═══ */
+    .links-list {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .link-btn {
+      display: block; width: 100%;
+      padding: 17px 24px;
+      background: var(--link-bg);
+      border: 1px solid var(--link-border);
+      border-radius: 14px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 15px;
+      text-align: center; text-decoration: none;
+      transition: background .18s, border-color .18s, transform .18s, box-shadow .18s;
+      position: relative; overflow: hidden;
+    }
+    .link-btn:hover {
+      background: var(--link-hover);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px var(--accent-soft);
+      color: var(--text);
+      opacity: 1;
+    }
+
+    [data-theme="neon"] .link-btn:hover {
+      box-shadow: 0 0 22px rgba(0,229,255,.18), 0 8px 24px rgba(0,229,255,.08);
+    }
+
+    .empty-state {
+      text-align: center; padding: 40px 0;
+      color: var(--text-muted); font-size: 14px;
+    }
+
+    /* ═══ FOOTER ═══ */
+    .footer {
+      margin-top: 52px; text-align: center;
+      font-size: 12px; color: var(--text-muted);
+    }
+    .footer a {
+      color: var(--accent); font-weight: 600; text-decoration: none;
+    }
+    .footer a:hover { opacity: .75; }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <div class="profile-header">
+      {% if user.avatar %}
+        <img src="/static/{{ user.avatar }}" class="avatar-img" alt="{{ user.username }}">
+      {% else %}
+        <div class="avatar-initials">{{ user.username[0] | upper }}</div>
+      {% endif %}
+
+      <h1 class="username">{{ user.username }}</h1>
+
+      {% if user.bio %}
+        <p class="bio">{{ user.bio }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Links -->
+    <div class="links-list">
+      {% for link in links %}
+        <a href="/go/{{ link.id }}" class="link-btn">{{ link.title }}</a>
+      {% endfor %}
+
+      {% if not links %}
+        <div class="empty-state">No links added yet.</div>
+      {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      Powered by <a href="/">LinkHub Pro</a>
+    </div>
+
+  </div>
+</body>
+</html>

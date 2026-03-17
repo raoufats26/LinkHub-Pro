@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}LinkHub Pro{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ═══════════════════════════════
+       THEME TOKENS
+    ═══════════════════════════════ */
+    :root, [data-theme="dark"] {
+      --bg:           #0d0f14;
+      --bg-card:      #161922;
+      --bg-input:     #1c2030;
+      --border:       #272d3d;
+      --text:         #e8eaf0;
+      --text-muted:   #5a6480;
+      --accent:       #6366f1;
+      --accent-hover: #4f52d9;
+      --accent-soft:  rgba(99,102,241,.13);
+      --success:      #10b981;
+      --danger:       #ef4444;
+      --danger-soft:  rgba(239,68,68,.12);
+      --radius:       14px;
+      --shadow:       0 4px 28px rgba(0,0,0,.5);
+      --shadow-sm:    0 2px 8px  rgba(0,0,0,.3);
+    }
+
+    [data-theme="neon"] {
+      --bg:           #04060d;
+      --bg-card:      #0a0e1a;
+      --bg-input:     #0f1525;
+      --border:       #162340;
+      --text:         #d4eeff;
+      --text-muted:   #3d6b8a;
+      --accent:       #00e5ff;
+      --accent-hover: #00b8d4;
+      --accent-soft:  rgba(0,229,255,.10);
+      --success:      #39ff14;
+      --danger:       #ff2d78;
+      --danger-soft:  rgba(255,45,120,.12);
+      --shadow:       0 4px 32px rgba(0,229,255,.08);
+      --shadow-sm:    0 2px 12px rgba(0,229,255,.05);
+    }
+
+    [data-theme="professional"] {
+      --bg:           #f4f6fb;
+      --bg-card:      #ffffff;
+      --bg-input:     #eef1f8;
+      --border:       #dde3f0;
+      --text:         #1a202c;
+      --text-muted:   #6b7a99;
+      --accent:       #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-soft:  rgba(37,99,235,.08);
+      --success:      #059669;
+      --danger:       #dc2626;
+      --danger-soft:  rgba(220,38,38,.08);
+      --shadow:       0 4px 24px rgba(0,0,0,.06);
+      --shadow-sm:    0 2px 8px  rgba(0,0,0,.04);
+    }
+
+    /* ═══════════════════════════════
+       RESET & BASE
+    ═══════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      min-height: 100vh;
+      transition: background .25s, color .25s;
+    }
+
+    /* Neon ambient glow */
+    [data-theme="neon"] body {
+      background:
+        radial-gradient(ellipse 70% 40% at 50% -5%, rgba(0,229,255,.07) 0%, transparent 70%),
+        var(--bg);
+    }
+    /* Neon scanlines */
+    [data-theme="neon"] body::after {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent 0px, transparent 3px,
+        rgba(0,229,255,.012) 3px, rgba(0,229,255,.012) 4px
+      );
+    }
+    /* Professional dot grid */
+    [data-theme="professional"] body::after {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: radial-gradient(circle, var(--border) 1px, transparent 0);
+      background-size: 26px 26px;
+      opacity: .55;
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-family: 'Syne', sans-serif;
+      line-height: 1.25;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: opacity .18s; }
+    a:hover { opacity: .75; }
+
+    /* ═══════════════════════════════
+       COMPONENTS
+    ═══════════════════════════════ */
+
+    /* Card */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    /* Button base */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 10px 20px; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+      cursor: pointer; border: none; transition: all .18s;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px var(--accent-soft);
+    }
+    .btn-ghost {
+      background: transparent; color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      background: var(--accent-soft); color: var(--text); border-color: var(--accent);
+    }
+    .btn-danger {
+      background: transparent; color: var(--danger);
+      border: 1px solid var(--danger-soft);
+    }
+    .btn-danger:hover { background: var(--danger-soft); }
+
+    /* Input */
+    .input {
+      display: block; width: 100%;
+      padding: 10px 14px;
+      background: var(--bg-input); color: var(--text);
+      border: 1px solid var(--border); border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px;
+      outline: none; transition: border-color .18s, box-shadow .18s;
+    }
+    .input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .input::placeholder { color: var(--text-muted); }
+
+    /* Badge */
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 999px;
+      font-size: 12px; font-weight: 600;
+      background: var(--accent-soft); color: var(--accent);
+    }
+
+    /* Label */
+    .label {
+      display: block;
+      font-size: 11px; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    /* Section title */
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 12px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+    }
+
+    /* Flash */
+    .flash-container {
+      position: fixed; top: 20px; right: 20px; z-index: 9999;
+      display: flex; flex-direction: column; gap: 8px;
+      max-width: 320px;
+    }
+    .flash-msg {
+      padding: 12px 18px; border-radius: 10px;
+      font-size: 14px; font-weight: 500;
+      background: var(--bg-card); border: 1px solid var(--border);
+      box-shadow: var(--shadow); color: var(--text);
+      animation: flashIn .25s ease;
+    }
+    @keyframes flashIn {
+      from { transform: translateX(110%); opacity: 0; }
+      to   { transform: translateX(0);    opacity: 1; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+    /* Page wrapper z-index above overlays */
+    .page-content { position: relative; z-index: 1; }
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+  {% if current_user and current_user.is_authenticated %}
+  <script>
+    document.documentElement.setAttribute('data-theme', '{{ current_user.theme or "dark" }}');
+  </script>
+  {% endif %}
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="flash-container">
+      {% for msg in messages %}
+        <div class="flash-msg">{{ msg }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="page-content">
+    {% block content %}{% endblock %}
+  </div>
+
+  <script>
+    // Auto-dismiss flash messages after 3.5 s
+    setTimeout(function() {
+      document.querySelectorAll('.flash-msg').forEach(function(el) {
+        el.style.transition = 'opacity .35s, transform .35s';
+        el.style.opacity = '0';
+        el.style.transform = 'translateX(110%)';
+        setTimeout(function() { el.remove(); }, 380);
+      });
+    }, 3500);
+  </script>
+</body>
+</html>
