@@ -1,6 +1,8 @@
 import os
 import uuid
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash, current_app
+import io
+import qrcode
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash, current_app, send_file
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from backend.db import db
@@ -98,9 +100,9 @@ def update_profile():
 @dashboard_bp.route("/update-theme", methods=["POST"])
 @login_required
 def update_theme():
-    theme = request.form.get("theme", "dark")
-    if theme not in ("dark", "neon", "professional"):
-        theme = "dark"
+    theme = request.form.get("theme", "light")
+    if theme not in ("light", "dark", "neon", "professional"):
+        theme = "light"
     current_user.theme = theme
     db.session.commit()
     return redirect(url_for("dashboard.index"))
@@ -123,3 +125,28 @@ def update_domain():
     db.session.commit()
     flash("Custom domain updated!")
     return redirect(url_for("dashboard.index"))
+
+
+@dashboard_bp.route("/qr-code")
+@login_required
+def qr_code():
+    """Generate and return a QR code PNG for the current user's profile URL."""
+    profile_url = request.host_url.rstrip("/") + "/" + current_user.username
+
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_H,
+        box_size=10,
+        border=3,
+    )
+    qr.add_data(profile_url)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="#18160f", back_color="#faf9f7")
+
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    buf.seek(0)
+
+    return send_file(buf, mimetype="image/png",
+                     download_name=f"{current_user.username}-qr.png")

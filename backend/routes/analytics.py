@@ -19,7 +19,6 @@ def analytics_data():
         .group_by(func.date(Click.timestamp))
         .all()
     )
-
     return jsonify({
         "labels": [str(d[0]) for d in data],
         "values": [d[1] for d in data]

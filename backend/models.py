@@ -9,7 +9,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(255), nullable=False)
     avatar = db.Column(db.String(255))
     bio = db.Column(db.Text)
-    theme = db.Column(db.String(50), default="dark")
+    theme = db.Column(db.String(50), default="light")
     custom_domain = db.Column(db.String(255), unique=True, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 

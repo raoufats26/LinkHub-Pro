@@ -8,182 +8,57 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ══ THEMES ══ */
-    :root, [data-theme="light"] {
-      --bg:           #faf9f7;
-      --bg-card:      #fff;
-      --border:       #e8e4dd;
-      --text:         #18160f;
-      --text-2:       #4a4640;
-      --text-3:       #9a9590;
-      --accent:       #f97316;
-      --accent-soft:  rgba(249,115,22,.09);
-      --link-bg:      #fff;
-      --link-border:  #e8e4dd;
-      --link-hover-bg:#fffaf6;
-      --link-hover-bd:#f97316;
-      --shadow:       0 2px 12px rgba(0,0,0,.06);
-      --shadow-hover: 0 6px 24px rgba(249,115,22,.12);
-    }
-    [data-theme="dark"] {
-      --bg:           #111010;
-      --bg-card:      #1a1917;
-      --border:       #2c2a27;
-      --text:         #f0ede8;
-      --text-2:       #a8a39c;
-      --text-3:       #6b6660;
-      --accent:       #f97316;
-      --accent-soft:  rgba(249,115,22,.12);
-      --link-bg:      #1e1c1a;
-      --link-border:  #2c2a27;
-      --link-hover-bg:#231f1c;
-      --link-hover-bd:#f97316;
-      --shadow:       0 2px 12px rgba(0,0,0,.4);
-      --shadow-hover: 0 6px 24px rgba(249,115,22,.10);
-    }
-    [data-theme="neon"] {
-      --bg:           #050507;
-      --bg-card:      #0d0d10;
-      --border:       #1e1e28;
-      --text:         #e8e8f0;
-      --text-2:       #8080a0;
-      --text-3:       #50506a;
-      --accent:       #a78bfa;
-      --accent-soft:  rgba(167,139,250,.10);
-      --link-bg:      #0f0f14;
-      --link-border:  #1e1e28;
-      --link-hover-bg:#13131a;
-      --link-hover-bd:#a78bfa;
-      --shadow:       0 2px 16px rgba(0,0,0,.5);
-      --shadow-hover: 0 6px 28px rgba(167,139,250,.15);
-    }
-    [data-theme="professional"] {
-      --bg:           #f8fafc;
-      --bg-card:      #fff;
-      --border:       #e2e8f0;
-      --text:         #0f172a;
-      --text-2:       #475569;
-      --text-3:       #94a3b8;
-      --accent:       #0ea5e9;
-      --accent-soft:  rgba(14,165,233,.08);
-      --link-bg:      #fff;
-      --link-border:  #e2e8f0;
-      --link-hover-bg:#f0f9ff;
-      --link-hover-bd:#0ea5e9;
-      --shadow:       0 2px 10px rgba(0,0,0,.05);
-      --shadow-hover: 0 6px 20px rgba(14,165,233,.12);
-    }
+    :root,[data-theme="light"]{--bg:#faf9f7;--bg-card:#fff;--border:#e8e4dd;--text:#18160f;--text-3:#9a9590;--accent:#f97316;--accent-soft:rgba(249,115,22,.09);--lbg:#fff;--lbd:#e8e4dd;--lhbg:#fffaf6;--lhbd:#f97316;--sh:0 2px 10px rgba(0,0,0,.05);--sh-h:0 6px 22px rgba(249,115,22,.11)}
+    [data-theme="dark"]{--bg:#111010;--bg-card:#1a1917;--border:#2c2a27;--text:#f0ede8;--text-3:#6b6660;--accent:#f97316;--accent-soft:rgba(249,115,22,.12);--lbg:#1e1c1a;--lbd:#2c2a27;--lhbg:#231f1c;--lhbd:#f97316;--sh:0 2px 10px rgba(0,0,0,.4);--sh-h:0 6px 22px rgba(249,115,22,.10)}
+    [data-theme="neon"]{--bg:#050507;--bg-card:#0d0d10;--border:#1e1e28;--text:#e8e8f0;--text-3:#50506a;--accent:#a78bfa;--accent-soft:rgba(167,139,250,.10);--lbg:#0f0f14;--lbd:#1e1e28;--lhbg:#13131a;--lhbd:#a78bfa;--sh:0 2px 12px rgba(0,0,0,.5);--sh-h:0 6px 26px rgba(167,139,250,.14)}
+    [data-theme="professional"]{--bg:#f8fafc;--bg-card:#fff;--border:#e2e8f0;--text:#0f172a;--text-3:#94a3b8;--accent:#0ea5e9;--accent-soft:rgba(14,165,233,.08);--lbg:#fff;--lbd:#e2e8f0;--lhbg:#f0f9ff;--lhbd:#0ea5e9;--sh:0 2px 8px rgba(0,0,0,.04);--sh-h:0 6px 20px rgba(14,165,233,.11)}
 
-    /* ══ BASE ══ */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { -webkit-font-smoothing: antialiased; }
-    body {
-      background: var(--bg); color: var(--text);
-      font-family: 'Geist', sans-serif;
-      min-height: 100vh;
-      display: flex; flex-direction: column; align-items: center;
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--text);font-family:'Geist',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+    [data-theme="neon"] body{background:radial-gradient(ellipse 70% 35% at 50% 0%,rgba(167,139,250,.07),transparent),#050507}
 
-    /* neon gradient bg */
-    [data-theme="neon"] body {
-      background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(167,139,250,.06), transparent), #050507;
-    }
+    .page{width:100%;max-width:460px;padding:60px 22px 80px;display:flex;flex-direction:column;align-items:center}
 
-    /* ══ PAGE ══ */
-    .page {
-      width: 100%; max-width: 480px;
-      padding: 64px 24px 80px;
-      display: flex; flex-direction: column; align-items: center;
-    }
+    .avatar-img{width:86px;height:86px;border-radius:50%;border:2px solid var(--border);object-fit:cover;box-shadow:var(--sh);margin-bottom:18px}
+    .avatar-init{width:86px;height:86px;border-radius:50%;background:var(--accent-soft);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:32px;color:var(--accent);margin-bottom:18px}
 
-    /* ══ AVATAR ══ */
-    .avatar-wrap { margin-bottom: 20px; }
-    .avatar-img {
-      width: 88px; height: 88px; border-radius: 50%;
-      border: 2px solid var(--border); object-fit: cover;
-      box-shadow: var(--shadow);
-    }
-    .avatar-init {
-      width: 88px; height: 88px; border-radius: 50%;
-      background: var(--accent-soft); border: 2px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Instrument Serif', serif; font-size: 34px; color: var(--accent);
-    }
+    .username{font-family:'Instrument Serif',serif;font-size:26px;letter-spacing:-.02em;margin-bottom:7px;text-align:center}
+    .bio{font-size:14px;color:var(--text-3);line-height:1.65;text-align:center;max-width:300px;margin-bottom:34px}
 
-    /* ══ HEADER ══ */
-    .username {
-      font-family: 'Instrument Serif', serif;
-      font-size: 28px; letter-spacing: -.02em;
-      color: var(--text); margin-bottom: 7px; text-align: center;
-    }
-    .bio {
-      font-size: 14px; color: var(--text-3); line-height: 1.65;
-      text-align: center; max-width: 320px; margin-bottom: 36px;
-    }
+    .links{width:100%;display:flex;flex-direction:column;gap:10px}
+    .link-btn{display:block;width:100%;padding:15px 20px;background:var(--lbg);color:var(--text);border:1.5px solid var(--lbd);border-radius:12px;font-family:'Geist',sans-serif;font-size:14px;font-weight:500;text-align:center;text-decoration:none;box-shadow:var(--sh);transition:border-color .17s,background .17s,box-shadow .17s,transform .17s}
+    .link-btn:hover{border-color:var(--lhbd);background:var(--lhbg);box-shadow:var(--sh-h);transform:translateY(-2px);color:var(--text);opacity:1}
 
-    /* ══ LINKS ══ */
-    .links { width: 100%; display: flex; flex-direction: column; gap: 10px; }
-
-    .link-btn {
-      display: block; width: 100%;
-      padding: 15px 22px;
-      background: var(--link-bg); color: var(--text);
-      border: 1.5px solid var(--link-border); border-radius: 12px;
-      font-family: 'Geist', sans-serif; font-size: 14px; font-weight: 500;
-      text-align: center; text-decoration: none;
-      box-shadow: var(--shadow);
-      transition: border-color .18s, background .18s, box-shadow .18s, transform .18s;
-    }
-    .link-btn:hover {
-      border-color: var(--link-hover-bd);
-      background: var(--link-hover-bg);
-      box-shadow: var(--shadow-hover);
-      transform: translateY(-2px);
-      color: var(--text);
-      opacity: 1;
-    }
-
-    /* ══ FOOTER ══ */
-    .footer {
-      margin-top: 52px; text-align: center;
-      font-size: 12px; color: var(--text-3);
-    }
-    .footer a { color: var(--accent); font-weight: 600; text-decoration: none; }
+    .footer{margin-top:48px;font-size:12px;color:var(--text-3);text-align:center}
+    .footer a{color:var(--accent);font-weight:600;text-decoration:none}
   </style>
 </head>
 <body>
   <div class="page">
-
-    <div class="avatar-wrap">
-      {% if user.avatar %}
-        <img src="/static/{{ user.avatar }}" class="avatar-img" alt="{{ user.username }}">
-      {% else %}
-        <div class="avatar-init">{{ user.username[0]|upper }}</div>
-      {% endif %}
-    </div>
+    {% if user.avatar %}
+      <img src="/static/{{ user.avatar }}" class="avatar-img" alt="{{ user.username }}">
+    {% else %}
+      <div class="avatar-init">{{ user.username[0]|upper }}</div>
+    {% endif %}
 
     <h1 class="username">{{ user.username }}</h1>
 
     {% if user.bio %}
       <p class="bio">{{ user.bio }}</p>
     {% else %}
-      <div style="margin-bottom:36px;"></div>
+      <div style="margin-bottom:34px;"></div>
     {% endif %}
 
     <div class="links">
       {% for link in links %}
         <a href="/go/{{ link.id }}" class="link-btn">{{ link.title }}</a>
       {% else %}
-        <p style="text-align:center; color:var(--text-3); font-size:14px; padding:32px 0;">
-          No links added yet.
-        </p>
+        <p style="text-align:center;color:var(--text-3);font-size:14px;padding:28px 0;">No links added yet.</p>
       {% endfor %}
     </div>
 
-    <div class="footer">
-      <a href="/">LinkHub Pro</a>
-    </div>
-
+    <div class="footer"><a href="/">LinkHub Pro</a></div>
   </div>
 </body>
 </html>

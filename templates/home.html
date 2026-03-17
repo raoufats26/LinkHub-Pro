@@ -3,255 +3,116 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LinkHub Pro — Your links, one place</title>
+  <title>LinkHub Pro — One link for everything you do</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { -webkit-font-smoothing: antialiased; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-font-smoothing:antialiased}
+    body{background:#faf9f7;color:#18160f;font-family:'Geist',sans-serif;min-height:100vh}
+    a{text-decoration:none}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:60px;border-bottom:1px solid #e8e4dd;position:sticky;top:0;background:#faf9f7;z-index:10}
+    .logo{font-family:'Instrument Serif',serif;font-size:22px;color:#18160f;letter-spacing:-.02em}
+    .logo span{color:#f97316}
+    .nav-btns{display:flex;align-items:center;gap:10px}
+    .btn-ghost{padding:7px 16px;border-radius:8px;font-family:'Geist',sans-serif;font-size:13px;font-weight:500;color:#4a4640;border:1.5px solid #e8e4dd;background:transparent;cursor:pointer;transition:all .15s}
+    .btn-ghost:hover{border-color:#ccc8c0;color:#18160f;background:#f4f2ee}
+    .btn-solid{padding:7px 16px;border-radius:8px;font-family:'Geist',sans-serif;font-size:13px;font-weight:600;color:#fff;background:#18160f;border:none;cursor:pointer;transition:all .15s}
+    .btn-solid:hover{opacity:.85;transform:translateY(-1px)}
 
-    body {
-      background: #faf9f7;
-      color: #18160f;
-      font-family: 'Geist', sans-serif;
-      min-height: 100vh;
-    }
+    .hero{max-width:860px;margin:0 auto;padding:100px 40px 72px;text-align:center;display:flex;flex-direction:column;align-items:center}
+    .pill{display:inline-flex;align-items:center;gap:7px;padding:5px 14px;border-radius:999px;background:#fff3ea;border:1px solid #fdd0aa;font-size:12px;font-weight:600;color:#f97316;letter-spacing:.04em;text-transform:uppercase;margin-bottom:28px}
+    .pill::before{content:'';width:6px;height:6px;border-radius:50%;background:#f97316;display:inline-block}
+    h1{font-family:'Instrument Serif',serif;font-size:clamp(42px,7vw,74px);line-height:1.07;letter-spacing:-.03em;color:#18160f;margin-bottom:22px}
+    h1 em{font-style:italic;color:#f97316}
+    .sub{font-size:17px;color:#6b6660;line-height:1.65;max-width:460px;margin-bottom:40px}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .btn-hero{padding:13px 28px;border-radius:10px;font-family:'Geist',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .15s;border:none}
+    .btn-hero-p{background:#18160f;color:#faf9f7}
+    .btn-hero-p:hover{opacity:.87;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.15)}
+    .btn-hero-s{background:transparent;color:#4a4640;border:1.5px solid #ccc8c0}
+    .btn-hero-s:hover{border-color:#18160f;color:#18160f;transform:translateY(-2px)}
 
-    a { text-decoration: none; }
+    .mockup{max-width:760px;margin:0 auto 80px;padding:0 40px}
+    .mockup-card{background:#fff;border:1px solid #e8e4dd;border-radius:20px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.08),0 2px 8px rgba(0,0,0,.04);display:flex;flex-direction:column;align-items:center;gap:12px}
+    .m-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#f97316,#fb923c);display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:26px;color:#fff}
+    .m-name{font-family:'Instrument Serif',serif;font-size:22px;color:#18160f}
+    .m-bio{font-size:13px;color:#9a9590}
+    .m-links{width:100%;max-width:320px;display:flex;flex-direction:column;gap:9px;margin-top:4px}
+    .m-link{display:block;padding:13px 20px;border-radius:10px;border:1.5px solid #e8e4dd;background:#faf9f7;font-size:14px;font-weight:500;color:#18160f;text-align:center;transition:all .15s}
+    .m-link:hover{border-color:#f97316;color:#f97316;transform:translateY(-1px)}
 
-    /* NAV */
-    nav {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 40px; height: 60px;
-      border-bottom: 1px solid #e8e4dd;
-      background: #faf9f7;
-      position: sticky; top: 0; z-index: 10;
-    }
-    .logo {
-      font-family: 'Instrument Serif', serif;
-      font-size: 22px; color: #18160f; letter-spacing: -.02em;
-    }
-    .logo span { color: #f97316; }
-    .nav-links { display: flex; align-items: center; gap: 12px; }
-    .btn-nav-ghost {
-      padding: 7px 16px; border-radius: 8px;
-      font-family: 'Geist', sans-serif; font-size: 13px; font-weight: 500;
-      color: #4a4640; border: 1.5px solid #e8e4dd;
-      background: transparent; cursor: pointer; transition: all .15s;
-    }
-    .btn-nav-ghost:hover { border-color: #ccc8c0; color: #18160f; background: #f4f2ee; }
-    .btn-nav-solid {
-      padding: 7px 16px; border-radius: 8px;
-      font-family: 'Geist', sans-serif; font-size: 13px; font-weight: 600;
-      color: #fff; background: #18160f;
-      border: none; cursor: pointer; transition: all .15s;
-    }
-    .btn-nav-solid:hover { opacity: .85; transform: translateY(-1px); }
+    .features{max-width:860px;margin:0 auto 80px;padding:0 40px}
+    .feat-title{font-family:'Instrument Serif',serif;font-size:36px;color:#18160f;margin-bottom:8px;letter-spacing:-.02em}
+    .feat-sub{color:#9a9590;font-size:14px;margin-bottom:40px}
+    .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .feat-card{padding:22px;border-radius:14px;background:#fff;border:1px solid #e8e4dd;box-shadow:0 2px 8px rgba(0,0,0,.04);transition:box-shadow .18s,transform .18s}
+    .feat-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-2px)}
+    .feat-icon{width:38px;height:38px;border-radius:9px;background:#fff3ea;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:12px}
+    .feat-name{font-family:'Instrument Serif',serif;font-size:17px;margin-bottom:5px;color:#18160f}
+    .feat-desc{font-size:13px;color:#9a9590;line-height:1.6}
 
-    /* HERO */
-    .hero {
-      max-width: 900px; margin: 0 auto;
-      padding: 96px 40px 80px;
-      display: flex; flex-direction: column; align-items: center;
-      text-align: center;
-    }
+    footer{border-top:1px solid #e8e4dd;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    footer p{font-size:12px;color:#9a9590}
 
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 5px 14px; border-radius: 999px;
-      background: #fff3ea; border: 1px solid #fdd0aa;
-      font-size: 12px; font-weight: 600; color: #f97316;
-      letter-spacing: .04em; text-transform: uppercase;
-      margin-bottom: 28px;
-    }
-    .hero-eyebrow::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
-      background: #f97316; display: inline-block;
-    }
-
-    h1 {
-      font-family: 'Instrument Serif', serif;
-      font-size: clamp(44px, 7vw, 76px);
-      line-height: 1.07; letter-spacing: -.03em;
-      color: #18160f; margin-bottom: 22px;
-    }
-    h1 em {
-      font-style: italic; color: #f97316;
-    }
-
-    .hero-sub {
-      font-size: 17px; color: #6b6660; line-height: 1.65;
-      max-width: 480px; margin-bottom: 40px; font-weight: 400;
-    }
-
-    .hero-cta {
-      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
-    }
-    .btn-hero-primary {
-      padding: 13px 28px; border-radius: 10px;
-      font-family: 'Geist', sans-serif; font-size: 15px; font-weight: 600;
-      background: #18160f; color: #faf9f7;
-      border: none; cursor: pointer; transition: all .15s;
-    }
-    .btn-hero-primary:hover { opacity: .87; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.15); }
-    .btn-hero-secondary {
-      padding: 13px 28px; border-radius: 10px;
-      font-family: 'Geist', sans-serif; font-size: 15px; font-weight: 500;
-      background: transparent; color: #4a4640;
-      border: 1.5px solid #ccc8c0; cursor: pointer; transition: all .15s;
-    }
-    .btn-hero-secondary:hover { border-color: #18160f; color: #18160f; transform: translateY(-2px); }
-
-    /* PREVIEW CARD */
-    .preview {
-      max-width: 800px; margin: 0 auto 80px;
-      padding: 0 40px;
-    }
-    .preview-frame {
-      background: #fff;
-      border: 1px solid #e8e4dd;
-      border-radius: 20px;
-      padding: 32px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.04);
-      display: flex; flex-direction: column; align-items: center; gap: 14px;
-    }
-    .preview-avatar {
-      width: 64px; height: 64px; border-radius: 50%;
-      background: linear-gradient(135deg, #f97316, #fb923c);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Instrument Serif', serif; font-size: 26px; color: #fff;
-    }
-    .preview-name { font-family: 'Instrument Serif', serif; font-size: 22px; color: #18160f; }
-    .preview-bio { font-size: 13px; color: #9a9590; }
-    .preview-links { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
-    .preview-link {
-      display: block; padding: 13px 20px; border-radius: 10px;
-      border: 1.5px solid #e8e4dd; background: #faf9f7;
-      font-size: 14px; font-weight: 500; color: #18160f;
-      text-align: center; transition: all .15s;
-    }
-    .preview-link:hover { border-color: #f97316; color: #f97316; transform: translateY(-1px); }
-
-    /* FEATURES */
-    .features {
-      max-width: 900px; margin: 0 auto 80px; padding: 0 40px;
-    }
-    .features-title {
-      font-family: 'Instrument Serif', serif;
-      font-size: 36px; color: #18160f; margin-bottom: 8px; letter-spacing: -.02em;
-    }
-    .features-sub { color: #9a9590; font-size: 14px; margin-bottom: 40px; }
-
-    .features-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;
-    }
-    .feature-card {
-      padding: 24px; border-radius: 16px;
-      background: #fff; border: 1px solid #e8e4dd;
-      box-shadow: 0 2px 8px rgba(0,0,0,.04);
-      transition: box-shadow .18s, transform .18s;
-    }
-    .feature-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.08); transform: translateY(-2px); }
-    .feature-icon {
-      width: 40px; height: 40px; border-radius: 10px;
-      background: #fff3ea; display: flex; align-items: center; justify-content: center;
-      font-size: 20px; margin-bottom: 14px;
-    }
-    .feature-name { font-family: 'Instrument Serif', serif; font-size: 18px; margin-bottom: 6px; color: #18160f; }
-    .feature-desc { font-size: 13px; color: #9a9590; line-height: 1.6; }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid #e8e4dd; padding: 28px 40px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 12px;
-    }
-    footer .logo { font-size: 16px; }
-    footer p { font-size: 12px; color: #9a9590; }
-
-    @media (max-width: 600px) {
-      nav { padding: 0 20px; }
-      .hero { padding: 64px 20px 48px; }
-      .preview { padding: 0 20px; }
-      .features { padding: 0 20px; }
-      footer { padding: 20px; }
-      h1 { font-size: 40px; }
+    @media(max-width:600px){
+      nav,footer{padding:0 20px}
+      nav{height:56px}
+      .hero,.mockup,.features{padding-left:20px;padding-right:20px}
+      .hero{padding-top:64px}
+      h1{font-size:38px}
     }
   </style>
 </head>
 <body>
-
-  <!-- NAV -->
   <nav>
     <div class="logo">LinkHub<span>.</span></div>
-    <div class="nav-links">
-      <a href="/login"><button class="btn-nav-ghost">Sign in</button></a>
-      <a href="/register"><button class="btn-nav-solid">Get started free</button></a>
+    <div class="nav-btns">
+      <a href="/login"><button class="btn-ghost">Sign in</button></a>
+      <a href="/register"><button class="btn-solid">Get started free</button></a>
     </div>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
-    <div class="hero-eyebrow">Free to use · No credit card</div>
+    <div class="pill">Free forever · No credit card</div>
     <h1>One link for<br><em>everything</em> you do</h1>
-    <p class="hero-sub">
-      Create your personal link page in minutes. Share your portfolio, social profiles,
-      and projects — all from a single beautiful URL.
-    </p>
-    <div class="hero-cta">
-      <a href="/register"><button class="btn-hero-primary">Create your page →</button></a>
-      <a href="/login"><button class="btn-hero-secondary">Sign in</button></a>
+    <p class="sub">Create your personal link page in minutes. Share your portfolio, socials, and projects — all from a single beautiful URL.</p>
+    <div class="cta">
+      <a href="/register"><button class="btn-hero btn-hero-p">Create your page →</button></a>
+      <a href="/login"><button class="btn-hero btn-hero-s">Sign in</button></a>
     </div>
   </section>
 
-  <!-- PREVIEW -->
-  <div class="preview">
-    <div class="preview-frame">
-      <div class="preview-avatar">A</div>
-      <div class="preview-name">Alex Rivera</div>
-      <div class="preview-bio">Designer & developer based in NYC</div>
-      <div class="preview-links">
-        <a href="#" class="preview-link">🎨 My Portfolio</a>
-        <a href="#" class="preview-link">🐦 Twitter / X</a>
-        <a href="#" class="preview-link">💼 LinkedIn</a>
-        <a href="#" class="preview-link">📸 Instagram</a>
+  <div class="mockup">
+    <div class="mockup-card">
+      <div class="m-avatar">A</div>
+      <div class="m-name">Alex Rivera</div>
+      <div class="m-bio">Designer & developer · NYC</div>
+      <div class="m-links">
+        <a href="#" class="m-link">🎨 My Portfolio</a>
+        <a href="#" class="m-link">🐦 Twitter / X</a>
+        <a href="#" class="m-link">💼 LinkedIn</a>
+        <a href="#" class="m-link">📸 Instagram</a>
       </div>
     </div>
   </div>
 
-  <!-- FEATURES -->
   <section class="features">
-    <h2 class="features-title">Everything you need</h2>
-    <p class="features-sub">Built for creators, developers, and professionals.</p>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🔗</div>
-        <div class="feature-name">Unlimited links</div>
-        <div class="feature-desc">Add as many links as you want and reorder them with drag & drop.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <div class="feature-name">Click analytics</div>
-        <div class="feature-desc">See exactly how many people click each link, with daily charts.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎨</div>
-        <div class="feature-name">4 themes</div>
-        <div class="feature-desc">Switch between Light, Dark, Neon, and Professional themes instantly.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🌐</div>
-        <div class="feature-name">Custom domain</div>
-        <div class="feature-desc">Point your own domain to your profile page for a personal touch.</div>
-      </div>
+    <h2 class="feat-title">Everything you need</h2>
+    <p class="feat-sub">Built for creators, developers, and professionals.</p>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-icon">🔗</div><div class="feat-name">Unlimited links</div><div class="feat-desc">Add and reorder links with drag & drop — no limit.</div></div>
+      <div class="feat-card"><div class="feat-icon">📊</div><div class="feat-name">Click analytics</div><div class="feat-desc">See daily click charts for every link you share.</div></div>
+      <div class="feat-card"><div class="feat-icon">🎨</div><div class="feat-name">4 themes</div><div class="feat-desc">Light, Dark, Neon, and Professional — switch anytime.</div></div>
+      <div class="feat-card"><div class="feat-icon">📷</div><div class="feat-name">QR code</div><div class="feat-desc">Download your profile QR code to share anywhere offline.</div></div>
+      <div class="feat-card"><div class="feat-icon">🌐</div><div class="feat-name">Custom domain</div><div class="feat-desc">Use your own domain to serve your profile page.</div></div>
+      <div class="feat-card"><div class="feat-icon">🔒</div><div class="feat-name">Secure by default</div><div class="feat-desc">CSRF protection, rate limiting, and hashed passwords.</div></div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
-    <div class="logo">LinkHub<span style="color:#f97316">.</span></div>
-    <p>© 2025 LinkHub Pro. Built with Flask.</p>
+    <div class="logo" style="font-size:16px">LinkHub<span style="color:#f97316">.</span></div>
+    <p>© 2025 LinkHub Pro. Built with Flask + PostgreSQL.</p>
   </footer>
-
 </body>
 </html>
